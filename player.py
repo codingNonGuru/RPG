@@ -42,6 +42,9 @@ class Player:
         self.cooldown += Engine.Get().frameDelta
 
     def CheckCollision(self, other):
+        if self is other.owner:
+            return False
+
         if self.hitpointCount <= 0:
             return False 
 

@@ -6,8 +6,9 @@ class Missile:
         self.y = shooter.y
         self.rotation = shooter.rotation
         self.lifetime = 0.0
-        self.speedModifier = 50.0
+        self.speedModifier = 100.0
         self.hitpointCount = 1
+        self.owner = shooter
 
     def Update(self, deltaTime):
         self.lifetime += deltaTime
