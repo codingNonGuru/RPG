@@ -17,6 +17,12 @@ class Scene:
         deltaTime = Engine.Get().frameDelta
 
         for player in self.players:
+            for missile in self.missiles:
+                if player.CheckCollision(missile):
+                    missile.Damage()
+                    player.Damage()
+
+        for player in self.players:
             player.Update()
 
         for missile in self.missiles:

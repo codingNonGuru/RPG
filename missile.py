@@ -7,6 +7,7 @@ class Missile:
         self.rotation = shooter.rotation
         self.lifetime = 0.0
         self.speedModifier = 50.0
+        self.hitpointCount = 1
 
     def Update(self, deltaTime):
         self.lifetime += deltaTime
@@ -15,4 +16,7 @@ class Missile:
         self.y += math.sin(self.rotation) * deltaTime * self.speedModifier
 
     def IsDestroyable(self):
-        return self.lifetime > 5.0
+        return self.lifetime > 5.0 or self.hitpointCount <= 0
+
+    def Damage(self):
+        self.hitpointCount -= 1

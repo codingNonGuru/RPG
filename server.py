@@ -18,8 +18,8 @@ class Server:
         return Server._server
 
     def __init__(self):
-        self.host = '127.0.0.1'
-        self.port = 30001
+        self.host = 'localhost'
+        self.port = 8787
         self.server = WebsocketServer(self.port, self.host)
         self.server.set_fn_client_left(Server.handleConnected)
         self.server.set_fn_message_received(Server.handleMessage)
@@ -42,17 +42,7 @@ class Server:
         direction = message['direction']
         for player in Scene.Get().players:
             if player.id == id:
-                if direction == 'rightwards':
-                    player.rotation -= 0.02
-                elif direction == 'leftwards':
-                    player.rotation += 0.02
-
-                if 'forward' == direction:
-                    player.x += math.cos(player.rotation)
-                    player.y += math.sin(player.rotation)
-                elif 'backwards' == direction:
-                    player.x -= math.cos(player.rotation)
-                    player.y -= math.sin(player.rotation)
+                player.Move(direction)
                 break
 
     @staticmethod
