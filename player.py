@@ -55,7 +55,7 @@ class Player:
         y = self.y - other.y
         distance = math.sqrt(x * x + y * y)
 
-        return distance < 5.0
+        return distance < 10.0
 
     def Damage(self):
         if self.hitpointCount <= 0:
