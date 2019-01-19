@@ -26,7 +26,7 @@ genericTriangle = [(10, 0), (-6, 6), (-6, -6)]
 while True:
     if socket is None:
         socket = WebSocket()
-        socket.connect('ws://127.0.0.1:8787/')
+        socket.connect('ws://192.168.100.2:8787/')
 
         messageData = {'user_id' : userId}
         message = '[playerJoined, ' + json.dumps(messageData) + ']'
@@ -77,6 +77,8 @@ while True:
         for vertex in genericTriangle:
             x = vertex[0] * math.cos(rotation) - vertex[1] * math.sin(rotation)
             y = vertex[0] * math.sin(rotation) + vertex[1] * math.cos(rotation)
+            x *= 0.5
+            y *= 0.5
             triangle.append((x + position[0], y + position[1]))
 
         pygame.draw.polygon(screen, (255, 255, 255), triangle)
