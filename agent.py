@@ -4,10 +4,15 @@ import random
 import scene
 from engine import Engine
 from missile import Missile
+import controller
 
 class Agent:
-    def __init__(self, controller):
-        self.controller = controller
+    def __init__(self, controllerData):
+        if controllerData['isHuman']:
+            self.controller = controller.HumanController(self, controllerData['id'])
+        else:
+            self.controller = controller.MachineController(self)
+        
         self.x = random.random() * 800.0
         self.y = random.random() * 600.0
         self.rotation = random.random() * 6.2831

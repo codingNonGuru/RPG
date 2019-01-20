@@ -15,10 +15,17 @@ class Scene:
         self.agents = []
         self.missiles = []
 
+        for i in range(0, 3):
+            controllerData = {'isHuman' : False}
+            newAgent = agent.Agent(controllerData)
+            
+            self.agents.append(newAgent)
+
     def AddPlayer(self, id):
-        newController = controller.HumanController(id)
-        newPlayer = agent.Agent(newController)
-        self.agents.append(newPlayer)
+        controllerData = {'isHuman' : True, 'id' : id}
+        newAgent = agent.Agent(controllerData)
+        
+        self.agents.append(newAgent)
 
     def Update(self):
         from engine import Engine

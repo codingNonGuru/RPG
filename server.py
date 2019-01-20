@@ -19,7 +19,7 @@ class Server:
         return Server._server
 
     def __init__(self):
-        self.host = '192.168.100.2'
+        self.host = '127.0.0.1'
         self.port = 8787
         self.server = WebsocketServer(self.port, self.host)
         self.server.set_fn_client_left(Server.handleConnected)
