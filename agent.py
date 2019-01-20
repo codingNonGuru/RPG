@@ -1,13 +1,13 @@
 import math
 import random
 
-from scene import Scene
+import scene
 from engine import Engine
 from missile import Missile
 
-class Player:
-    def __init__(self, id):
-        self.id = id
+class Agent:
+    def __init__(self, controller):
+        self.controller = controller
         self.x = random.random() * 800.0
         self.y = random.random() * 600.0
         self.rotation = random.random() * 6.2831
@@ -20,7 +20,7 @@ class Player:
 
         self.cooldown = 0.0
         missile = Missile(self)
-        Scene.Get().missiles.append(missile)
+        scene.Scene.Get().missiles.append(missile)
 
     def Move(self, direction):
         if self.hitpointCount <= 0:
@@ -39,6 +39,17 @@ class Player:
             self.y -= math.sin(self.rotation)
 
     def Update(self):
+        self.controller.Update()
+
+        if self.controller.isMoving:
+            self.Move(self.controller.moveDirection)
+
+        if self.controller.isTurning:
+            self.Move(self.controller.turnDirection)
+
+        if self.controller.isShooting:
+            self.Fire()
+
         self.cooldown += Engine.Get().frameDelta
 
     def CheckCollision(self, other):

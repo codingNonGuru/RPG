@@ -6,6 +6,7 @@ import math
 from websocket_server import WebsocketServer
 
 from scene import Scene
+from event import Event
 
 class Server:
     _server = None
@@ -18,11 +19,12 @@ class Server:
         return Server._server
 
     def __init__(self):
-        self.host = 'localhost'
+        self.host = '192.168.100.2'
         self.port = 8787
         self.server = WebsocketServer(self.port, self.host)
         self.server.set_fn_client_left(Server.handleConnected)
         self.server.set_fn_message_received(Server.handleMessage)
+        self.events = []
 
     @staticmethod
     def handleConnected(client, server):
@@ -30,28 +32,18 @@ class Server:
 
     @staticmethod
     def handlePlayerJoined(message):
-        import player
-
         id = message['user_id']
-        newPlayer = player.Player(id)
-        Scene.Get().players.append(newPlayer)
+        Scene.Get().AddPlayer(id)
 
     @staticmethod
     def handlePlayerMoved(message):
-        id = message['user_id']
-        direction = message['direction']
-        for player in Scene.Get().players:
-            if player.id == id:
-                player.Move(direction)
-                break
+        event = Event('move', message)
+        Server.Get().events.append(event)
 
     @staticmethod
     def handlePlayerFired(message):
-        id = message['user_id']
-        for player in Scene.Get().players:
-            if player.id == id:
-                player.Fire()
-                break
+        event = Event('fire', message)
+        Server.Get().events.append(event)
 
     @staticmethod
     def handleMessage(client, server, message):
@@ -73,7 +65,7 @@ class Server:
     def Broadcast(self):
         eventObject = {'positions' : [], 'rotations' : [], 'missiles' : []}
 
-        for player in Scene.Get().players:
+        for player in Scene.Get().agents:
             eventObject['positions'].append((player.x, player.y))
             eventObject['rotations'].append(player.rotation)
 

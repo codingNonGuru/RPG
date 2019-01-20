@@ -1,3 +1,6 @@
+import controller
+import agent
+
 class Scene:
     _scene = None
 
@@ -9,21 +12,26 @@ class Scene:
         return Scene._scene
 
     def __init__(self):
-        self.players = []
+        self.agents = []
         self.missiles = []
+
+    def AddPlayer(self, id):
+        newController = controller.HumanController(id)
+        newPlayer = agent.Agent(newController)
+        self.agents.append(newPlayer)
 
     def Update(self):
         from engine import Engine
         deltaTime = Engine.Get().frameDelta
 
-        for player in self.players:
+        for agent in self.agents:
             for missile in self.missiles:
-                if player.CheckCollision(missile):
+                if agent.CheckCollision(missile):
                     missile.Damage()
-                    player.Damage()
+                    agent.Damage()
 
-        for player in self.players:
-            player.Update()
+        for agent in self.agents:
+            agent.Update()
 
         for missile in self.missiles:
             missile.Update(deltaTime)
