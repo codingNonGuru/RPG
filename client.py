@@ -23,10 +23,14 @@ def sendPlayerFiredMessage():
 
 genericTriangle = [(10, 0), (-6, 6), (-6, -6)]
 
+import configReader
+serverIp = configReader.ConfigReader.GetVariable('SERVER_IP')
+serverPort = configReader.ConfigReader.GetVariable('PORT')
+
 while True:
     if socket is None:
         socket = WebSocket()
-        socket.connect('ws://192.168.100.2:8787/')
+        socket.connect('ws://' + serverIp + ':' + serverPort + '/')
 
         messageData = {'user_id' : userId}
         message = '[playerJoined, ' + json.dumps(messageData) + ']'
