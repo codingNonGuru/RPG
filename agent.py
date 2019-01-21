@@ -5,17 +5,20 @@ import scene
 from engine import Engine
 from missile import Missile
 import controller
+from vector import Vector
+from body import Body
 
-class Agent:
+class Agent(Body):
     def __init__(self, controllerData):
+        position = Vector(random.random() * 800.0, random.random() * 600.0)
+        rotation = random.random() * 6.2831
+        super(Agent, self).__init__(position, rotation)
+
         if controllerData['isHuman']:
             self.controller = controller.HumanController(self, controllerData['id'])
         else:
             self.controller = controller.MachineController(self)
         
-        self.x = random.random() * 800.0
-        self.y = random.random() * 600.0
-        self.rotation = random.random() * 6.2831
         self.cooldown = 0.0
         self.hitpointCount = 5
 
@@ -37,11 +40,9 @@ class Agent:
             self.rotation += 0.02
 
         if 'forward' == direction:
-            self.x += math.cos(self.rotation)
-            self.y += math.sin(self.rotation)
+            self.position += self.GetForward()
         elif 'backwards' == direction:
-            self.x -= math.cos(self.rotation)
-            self.y -= math.sin(self.rotation)
+            self.position -= self.GetForward()
 
     def Update(self):
         self.controller.Update()
@@ -67,9 +68,8 @@ class Agent:
         if other.IsDestroyable():
             return False
 
-        x = self.x - other.x
-        y = self.y - other.y
-        distance = math.sqrt(x * x + y * y)
+        direction = other.position - self.position
+        distance = direction.GetLength()
 
         return distance < 10.0
 

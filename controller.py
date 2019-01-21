@@ -57,9 +57,8 @@ class MachineController(Controller):
             if agent is self.parent:
                 continue
 
-            x = self.parent.x - agent.x
-            y = self.parent.y - agent.y
-            distance = math.sqrt(x * x + y * y)
+            direction = self.parent.position - agent.position
+            distance = direction.GetLength()
 
             if distance < closestDistance:
                 closestDistance = distance

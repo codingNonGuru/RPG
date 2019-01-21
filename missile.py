@@ -1,10 +1,10 @@
 import math
 
-class Missile:
+from body import Body
+
+class Missile(Body):
     def __init__(self, shooter):
-        self.x = shooter.x
-        self.y = shooter.y
-        self.rotation = shooter.rotation
+        super(Missile, self).__init__(shooter.position, shooter.rotation)
         self.lifetime = 0.0
         self.speedModifier = 100.0
         self.hitpointCount = 1
@@ -13,8 +13,7 @@ class Missile:
     def Update(self, deltaTime):
         self.lifetime += deltaTime
 
-        self.x += math.cos(self.rotation) * deltaTime * self.speedModifier
-        self.y += math.sin(self.rotation) * deltaTime * self.speedModifier
+        self.position += self.GetForward() * deltaTime * self.speedModifier
 
     def IsDestroyable(self):
         return self.lifetime > 5.0 or self.hitpointCount <= 0

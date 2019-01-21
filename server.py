@@ -66,11 +66,11 @@ class Server:
         eventObject = {'positions' : [], 'rotations' : [], 'missiles' : []}
 
         for player in Scene.Get().agents:
-            eventObject['positions'].append((player.x, player.y))
+            eventObject['positions'].append((player.position.x, player.position.y))
             eventObject['rotations'].append(player.rotation)
 
         for missile in Scene.Get().missiles:
-            missileData = {'x' : missile.x, 'y' : missile.y, 'rotation' : missile.rotation}
+            missileData = {'x' : missile.position.x, 'y' : missile.position.y, 'rotation' : missile.rotation}
             eventObject['missiles'].append(missileData)
 
         eventData = json.dumps(eventObject)
