@@ -1,6 +1,7 @@
 import math
 
 import scene
+from vector import Vector
 
 class Controller(object):
     def __init__(self, parent):
@@ -65,3 +66,17 @@ class MachineController(Controller):
                 closestAgent = agent
 
         self.target = closestAgent
+
+        if self.target is None:
+            return
+
+        direction = self.target.position - self.parent.position
+        forward = self.parent.GetForward()
+
+        cross = Vector.GetCrossProduct(direction, forward)
+        if cross > 0.0:
+            self.turnDirection = 'rightwards'
+        else:
+            self.turnDirection = 'leftwards'
+        
+        self.isTurning = True

@@ -19,3 +19,7 @@ class Vector:
 
     def GetLength(self):
         return math.sqrt(self.x * self.x + self.y * self.y)
+
+    @staticmethod
+    def GetCrossProduct(first, second):
+        return (first.x * second.y) - (first.y * second.x)
