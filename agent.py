@@ -9,7 +9,7 @@ from vector import Vector
 from body import Body
 
 class Agent(Body):
-    def __init__(self, controllerData):
+    def __init__(self, controllerData, faction):
         position = Vector(random.random() * 800.0, random.random() * 600.0)
         rotation = random.random() * 6.2831
         super(Agent, self).__init__(position, rotation)
@@ -22,8 +22,11 @@ class Agent(Body):
         self.cooldown = 0.0
         self.hitpointCount = 5
 
+        self.faction = faction
+        self.speedModifier = 2.0
+
     def Fire(self):
-        if self.cooldown < 2.0:
+        if self.cooldown < 5.0:
             return
 
         self.cooldown = 0.0
@@ -35,16 +38,19 @@ class Agent(Body):
             return 
             
         if direction == 'rightwards':
-            self.rotation -= 0.02
+            self.rotation -= 0.05
         elif direction == 'leftwards':
-            self.rotation += 0.02
+            self.rotation += 0.05
 
         if 'forward' == direction:
-            self.position += self.GetForward()
+            self.position += self.GetForward() * self.speedModifier
         elif 'backwards' == direction:
-            self.position -= self.GetForward()
+            self.position -= self.GetForward() * self.speedModifier
 
     def Update(self):
+        if self.hitpointCount <= 0:
+            return
+
         self.controller.Update()
 
         if self.controller.isMoving:

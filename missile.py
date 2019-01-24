@@ -6,7 +6,7 @@ class Missile(Body):
     def __init__(self, shooter):
         super(Missile, self).__init__(shooter.position, shooter.rotation)
         self.lifetime = 0.0
-        self.speedModifier = 100.0
+        self.speedModifier = 70.0
         self.hitpointCount = 1
         self.owner = shooter
 

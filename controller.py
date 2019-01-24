@@ -58,6 +58,9 @@ class MachineController(Controller):
             if agent is self.parent:
                 continue
 
+            if agent.faction == self.parent.faction:
+                continue
+
             direction = self.parent.position - agent.position
             distance = direction.GetLength()
 
@@ -80,3 +83,5 @@ class MachineController(Controller):
             self.turnDirection = 'leftwards'
         
         self.isTurning = True
+
+        self.isShooting = True

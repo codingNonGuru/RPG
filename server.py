@@ -63,11 +63,12 @@ class Server:
             Server.handlePlayerFired(message)
 
     def Broadcast(self):
-        eventObject = {'positions' : [], 'rotations' : [], 'missiles' : []}
+        eventObject = {'positions' : [], 'rotations' : [], 'missiles' : [], 'hitpoints' : []}
 
         for player in Scene.Get().agents:
             eventObject['positions'].append((player.position.x, player.position.y))
             eventObject['rotations'].append(player.rotation)
+            eventObject['hitpoints'].append(player.hitpointCount)
 
         for missile in Scene.Get().missiles:
             missileData = {'x' : missile.position.x, 'y' : missile.position.y, 'rotation' : missile.rotation}

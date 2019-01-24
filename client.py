@@ -57,7 +57,7 @@ while True:
         sendPlayerFiredMessage()
 
     messageData = socket.recv()
-    print(messageData)
+    #print(messageData)
     message = json.loads(messageData)
 
     screen.fill((0, 0, 0))

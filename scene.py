@@ -17,13 +17,13 @@ class Scene:
 
         for i in range(0, 3):
             controllerData = {'isHuman' : False}
-            newAgent = agent.Agent(controllerData)
+            newAgent = agent.Agent(controllerData, 'Los Chicos')
             
             self.agents.append(newAgent)
 
     def AddPlayer(self, id):
         controllerData = {'isHuman' : True, 'id' : id}
-        newAgent = agent.Agent(controllerData)
+        newAgent = agent.Agent(controllerData, 'El Verdadero')
         
         self.agents.append(newAgent)
 
