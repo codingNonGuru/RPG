@@ -1,6 +1,7 @@
 import math
 
 import scene
+import engine
 from vector import Vector
 
 class Controller(object):
@@ -8,8 +9,8 @@ class Controller(object):
         self.isMoving = False
         self.isTurning = False
         self.isShooting = False
-        self.moveDirection = None
-        self.turnDirection = None
+        self.moveDirection = 0.0
+        self.turnDirection = 0.0
         self.target = None
         self.parent = parent
 
@@ -32,14 +33,13 @@ class HumanController(Controller):
                 continue
 
             if event.name == 'move':
-                direction = event.data['direction']
-
-                if direction == 'forward' or direction == 'backwards':
-                    self.isMoving = True
-                    self.moveDirection = direction
-                else:
-                    self.isTurning = True
-                    self.turnDirection = direction
+                factor = event.data['factor']
+                self.isMoving = True
+                self.moveDirection = factor
+            elif event.name == 'turn':
+                factor = event.data['factor']                
+                self.isTurning = True
+                self.turnDirection = factor
             elif event.name == 'fire':
                 self.isShooting = True
 
@@ -78,9 +78,9 @@ class MachineController(Controller):
 
         cross = Vector.GetCrossProduct(direction, forward)
         if cross > 0.0:
-            self.turnDirection = 'rightwards'
+            self.turnDirection = -engine.Engine.Get().frameDelta
         else:
-            self.turnDirection = 'leftwards'
+            self.turnDirection = engine.Engine.Get().frameDelta
         
         self.isTurning = True
 

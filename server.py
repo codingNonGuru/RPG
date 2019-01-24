@@ -41,6 +41,11 @@ class Server:
         Server.Get().events.append(event)
 
     @staticmethod
+    def handlePlayerTurned(message):
+        event = Event('turn', message)
+        Server.Get().events.append(event)
+
+    @staticmethod
     def handlePlayerFired(message):
         event = Event('fire', message)
         Server.Get().events.append(event)
@@ -59,6 +64,8 @@ class Server:
             Server.handlePlayerJoined(message)
         elif "playerMoved" == messageType:
             Server.handlePlayerMoved(message)
+        elif "playerTurned" == messageType:
+            Server.handlePlayerTurned(message)
         elif "playerFired" == messageType:
             Server.handlePlayerFired(message)
 

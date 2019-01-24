@@ -8,7 +8,7 @@ import controller
 from vector import Vector
 from body import Body
 
-DEVIATION_MODIFIER = 0.2
+DEVIATION_MODIFIER = 0.15
 
 class Agent(Body):
     def __init__(self, controllerData, faction):
@@ -27,7 +27,8 @@ class Agent(Body):
         self.hitpointCount = 5
 
         self.faction = faction
-        self.speedModifier = 2.0
+        self.moveSpeedModifier = 10.0
+        self.turnSpeedModifier = 0.3
 
     def Fire(self):
         if self.cooldown < 5.0:
@@ -45,24 +46,22 @@ class Agent(Body):
         missile = Missile(self, rotation)
         scene.Scene.Get().missiles.append(missile)
 
-    def Move(self, direction):
+    def Move(self, factor):
+        if self.hitpointCount <= 0:
+            return 
+
+        self.position += self.GetForward() * self.moveSpeedModifier * factor
+
+    def Turn(self, factor):
         if self.hitpointCount <= 0:
             return 
             
-        if direction == 'rightwards':
-            self.rotation -= 0.05
-        elif direction == 'leftwards':
-            self.rotation += 0.05
+        self.rotation += factor * self.turnSpeedModifier
 
         if self.rotation > 6.2831:
             self.rotation -= 6.2831
         elif self.rotation < 0.0:
             self.rotation += 6.2831
-
-        if 'forward' == direction:
-            self.position += self.GetForward() * self.speedModifier
-        elif 'backwards' == direction:
-            self.position -= self.GetForward() * self.speedModifier
 
     def Update(self):
         if self.hitpointCount <= 0:
@@ -74,7 +73,7 @@ class Agent(Body):
             self.Move(self.controller.moveDirection)
 
         if self.controller.isTurning:
-            self.Move(self.controller.turnDirection)
+            self.Turn(self.controller.turnDirection)
 
         if self.controller.isShooting:
             self.Fire()
