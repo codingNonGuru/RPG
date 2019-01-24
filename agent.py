@@ -8,6 +8,8 @@ import controller
 from vector import Vector
 from body import Body
 
+DEVIATION_MODIFIER = 0.2
+
 class Agent(Body):
     def __init__(self, controllerData, faction):
         position = Vector(random.random() * 800.0, random.random() * 600.0)
@@ -19,6 +21,8 @@ class Agent(Body):
         else:
             self.controller = controller.MachineController(self)
         
+        self.reflexes = 2
+
         self.cooldown = 0.0
         self.hitpointCount = 5
 
@@ -30,7 +34,15 @@ class Agent(Body):
             return
 
         self.cooldown = 0.0
-        missile = Missile(self)
+
+        deviationFactor = float(10 - self.reflexes) * 0.1
+        if deviationFactor < 0.0:
+            deviationFactor = 0.0
+        deviationFactor *= DEVIATION_MODIFIER
+
+        deviation = random.random() * (2.0 * deviationFactor) - deviationFactor
+        rotation = self.rotation + deviation
+        missile = Missile(self, rotation)
         scene.Scene.Get().missiles.append(missile)
 
     def Move(self, direction):
@@ -41,6 +53,11 @@ class Agent(Body):
             self.rotation -= 0.05
         elif direction == 'leftwards':
             self.rotation += 0.05
+
+        if self.rotation > 6.2831:
+            self.rotation -= 6.2831
+        elif self.rotation < 0.0:
+            self.rotation += 6.2831
 
         if 'forward' == direction:
             self.position += self.GetForward() * self.speedModifier
