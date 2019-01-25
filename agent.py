@@ -27,8 +27,8 @@ class Agent(Body):
         self.hitpointCount = 5
 
         self.faction = faction
-        self.moveSpeedModifier = 10.0
-        self.turnSpeedModifier = 0.3
+        self.moveSpeedModifier = 5.0
+        self.turnSpeedModifier = 0.2
 
     def Fire(self):
         if self.cooldown < 5.0:

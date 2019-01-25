@@ -15,7 +15,7 @@ class Scene:
         self.agents = []
         self.missiles = []
 
-        for i in range(0, 0):
+        for i in range(0, 1):
             controllerData = {'isHuman' : False}
             newAgent = agent.Agent(controllerData, 'Los Chicos')
             
