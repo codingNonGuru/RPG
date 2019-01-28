@@ -1,7 +1,7 @@
 import re
 
 class ConfigReader(object):
-    _instance = None
+    _instance = None 
 
     @staticmethod
     def Get():

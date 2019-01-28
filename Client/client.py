@@ -39,9 +39,14 @@ class Client():
         messageData = self.socket.recv()
         return json.loads(messageData)
 
-    def SendPlayerMovedMessage(self, direction):
-        messageData = {'user_id' : self.userId, 'direction' : direction}
+    def SendPlayerMovedMessage(self, factor):
+        messageData = {'user_id' : self.userId, 'factor' : factor}
         message = '[playerMoved, ' + json.dumps(messageData) + ']'
+        self.socket.send(message)
+
+    def SendPlayerTurnedMessage(self, factor):
+        messageData = {'user_id' : self.userId, 'factor' : factor}
+        message = '[playerTurned, ' + json.dumps(messageData) + ']'
         self.socket.send(message)
 
     def SendPlayerFiredMessage(self):

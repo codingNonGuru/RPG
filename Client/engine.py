@@ -1,3 +1,5 @@
+import time
+
 import pygame
 
 import client as clientModule
@@ -16,8 +18,18 @@ class Engine():
     def __init__(self):
         rendererModule.Renderer.Get()
 
+        self.moveFactor = 0.0
+        self.turnFactor = 0.0
+
+        self.frameDelta = 0.0
+
     def Start(self):
+        lastClock = time.clock()
         while True:
+            self.frameDelta = time.clock() - lastClock
+            self.frameDelta *= 100.0
+            lastClock = time.clock()
+
             self.Update()
     
     def Update(self):
@@ -30,18 +42,23 @@ class Engine():
 
         client = clientModule.Client.Get()
 
+        self.moveFactor = 0.0
         if pressedKeys[pygame.K_w]:
-            client.SendPlayerMovedMessage('forward')    
+            self.moveFactor += self.frameDelta
         elif pressedKeys[pygame.K_s]:
-            client.SendPlayerMovedMessage('backwards')
+            self.moveFactor -= self.frameDelta
 
+        self.turnFactor = 0.0
         if pressedKeys[pygame.K_a]:
-            client.SendPlayerMovedMessage('rightwards')
+            self.turnFactor -= self.frameDelta
         elif pressedKeys[pygame.K_d]:
-            client.SendPlayerMovedMessage('leftwards')
+            self.turnFactor += self.frameDelta
 
         if pressedKeys[pygame.K_SPACE]:
             client.SendPlayerFiredMessage()
+
+        client.SendPlayerMovedMessage(self.moveFactor)
+        client.SendPlayerTurnedMessage(self.turnFactor)
 
         message = client.GetMessage()
 
