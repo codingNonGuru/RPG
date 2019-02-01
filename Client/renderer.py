@@ -26,9 +26,9 @@ class Renderer():
         genericTriangle = [(10, 0), (-6, 6), (-6, -6)]
         missileTriangle = [(6, 0), (-3, 2), (-3, -2)]
 
-        index = 0
-        for position in data['positions']:
-            rotation = data['rotations'][index]
+        for agent in data['agents']:
+            position = agent['position']
+            rotation = agent['rotation']
             triangle = []
             for vertex in genericTriangle:
                 x = vertex[0] * math.cos(rotation) - vertex[1] * math.sin(rotation)
@@ -36,7 +36,6 @@ class Renderer():
                 triangle.append((x + position[0], y + position[1]))
 
             pygame.draw.polygon(self.screen, (255, 255, 255), triangle)
-            index += 1
 
             textSurface = self.font.render('Aloha', False, (255, 255, 255))
             textSize = textSurface.get_size()
