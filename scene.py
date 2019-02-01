@@ -17,9 +17,9 @@ class Scene:
         self.agents = []
         self.missiles = []
 
-        for i in range(0, 1):
+        for i in range(0, 5):
             controllerData = {'isHuman' : False}
-            characterData = {Attributes.RACE : Races.DWARF, Attributes.CLASS : Classes.FIGHTER, Attributes.LEVEL : 3}
+            characterData = {Attributes.CLASS : Classes.FIGHTER}
             newAgent = agentFactory.AgentFactory.Get().GetAgent(controllerData, characterData, 'Los Chicos')
             
             self.agents.append(newAgent)

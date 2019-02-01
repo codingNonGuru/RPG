@@ -79,7 +79,8 @@ class Server:
                 'rotation' : agent.rotation, 
                 'hitpoints' : agent.hitpointCount,
                 Attributes.RACE : agent.characterData[Attributes.RACE],
-                Attributes.CLASS : agent.characterData[Attributes.CLASS]
+                Attributes.CLASS : agent.characterData[Attributes.CLASS],
+                Attributes.LEVEL : agent.characterData[Attributes.LEVEL]
                 }
             eventObject['agents'].append(agentData)            
 

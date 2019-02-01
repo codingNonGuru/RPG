@@ -1,5 +1,7 @@
+import random
+
 import agent
-from agentData import Races
+from agentData import Attributes, Races
 
 class AgentFactory():
     _instance = None
@@ -12,6 +14,16 @@ class AgentFactory():
         return AgentFactory._instance
 
     def GetAgent(self, controllerData, characterData, faction):
+        characterData[Attributes.LEVEL] = random.randint(1, 10)
+
+        dice = random.randint(0, 100)
+        if dice < 30:
+            characterData[Attributes.RACE] = Races.DWARF
+        elif dice < 60:
+            characterData[Attributes.RACE] = Races.ORC
+        else:
+            characterData[Attributes.RACE] = Races.HUMAN
+
         newAgent = agent.Agent(controllerData, characterData, faction)
 
         #if characterData['race'] is Races.DWARF:

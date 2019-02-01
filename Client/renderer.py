@@ -33,6 +33,7 @@ class Renderer():
             rotation = agent['rotation']
             race = agent[Attributes.RACE]
             agentClass = agent[Attributes.CLASS]
+            level = agent[Attributes.LEVEL]
             triangle = []
             for vertex in genericTriangle:
                 x = vertex[0] * math.cos(rotation) - vertex[1] * math.sin(rotation)
@@ -41,7 +42,8 @@ class Renderer():
 
             pygame.draw.polygon(self.screen, (255, 255, 255), triangle)
 
-            textSurface = self.font.render(race + ' ' + agentClass, False, (255, 255, 255))
+            text = race + ' ' + agentClass + ', Lvl ' + str(level)  
+            textSurface = self.font.render(text, False, (255, 255, 255))
             textSize = textSurface.get_size()
             textPosition = (position[0] - textSize[0] / 2, position[1] - textSize[1] / 2 + 20)
             self.screen.blit(textSurface, textPosition)
