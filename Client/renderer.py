@@ -2,6 +2,8 @@ import math
 
 import pygame
 
+from agentData import Attributes
+
 class Renderer():
     _instance = None
 
@@ -29,6 +31,8 @@ class Renderer():
         for agent in data['agents']:
             position = agent['position']
             rotation = agent['rotation']
+            race = agent[Attributes.RACE]
+            agentClass = agent[Attributes.CLASS]
             triangle = []
             for vertex in genericTriangle:
                 x = vertex[0] * math.cos(rotation) - vertex[1] * math.sin(rotation)
@@ -37,7 +41,7 @@ class Renderer():
 
             pygame.draw.polygon(self.screen, (255, 255, 255), triangle)
 
-            textSurface = self.font.render('Aloha', False, (255, 255, 255))
+            textSurface = self.font.render(race + ' ' + agentClass, False, (255, 255, 255))
             textSize = textSurface.get_size()
             textPosition = (position[0] - textSize[0] / 2, position[1] - textSize[1] / 2 + 20)
             self.screen.blit(textSurface, textPosition)

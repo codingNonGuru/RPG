@@ -7,6 +7,7 @@ from websocket_server import WebsocketServer
 
 from scene import Scene
 from event import Event
+from agentData import Attributes
 
 class Server:
     _server = None
@@ -73,7 +74,13 @@ class Server:
         eventObject = {'missiles' : [], 'agents' : []}
 
         for agent in Scene.Get().agents:
-            agentData = {'position' : (agent.position.x, agent.position.y), 'rotation' : agent.rotation, 'hitpoints' : agent.hitpointCount}
+            agentData = {
+                'position' : (agent.position.x, agent.position.y), 
+                'rotation' : agent.rotation, 
+                'hitpoints' : agent.hitpointCount,
+                Attributes.RACE : agent.characterData[Attributes.RACE],
+                Attributes.CLASS : agent.characterData[Attributes.CLASS]
+                }
             eventObject['agents'].append(agentData)            
 
         for missile in Scene.Get().missiles:

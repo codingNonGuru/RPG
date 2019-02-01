@@ -9,3 +9,8 @@ class Races:
     ELF = 'Elf'
     HUMAN = 'Human'
     ORC = 'Orc'
+
+class Classes:
+    FIGHTER = 'Fighter'
+    RANGER = 'Ranger'
+    WIZARD = 'Wizard'

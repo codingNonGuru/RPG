@@ -1,7 +1,7 @@
 import controller
 import agent
 import agentFactory
-from agentData import Attributes
+from agentData import Attributes, Races, Classes
 
 class Scene:
     _scene = None
@@ -19,14 +19,14 @@ class Scene:
 
         for i in range(0, 1):
             controllerData = {'isHuman' : False}
-            characterData = {Attributes.RACE : 'DWARF', Attributes.CLASS : 'FOOTMAN', Attributes.LEVEL : 3}
+            characterData = {Attributes.RACE : Races.DWARF, Attributes.CLASS : Classes.FIGHTER, Attributes.LEVEL : 3}
             newAgent = agentFactory.AgentFactory.Get().GetAgent(controllerData, characterData, 'Los Chicos')
             
             self.agents.append(newAgent)
 
     def AddPlayer(self, id):
         controllerData = {'isHuman' : True, 'id' : id}
-        characterData = {Attributes.RACE : 'DWARF', Attributes.CLASS : 'FOOTMAN', Attributes.LEVEL : 1}
+        characterData = {Attributes.RACE : Races.DWARF, Attributes.CLASS : Classes.FIGHTER, Attributes.LEVEL : 1}
         newAgent = agent.Agent(controllerData, characterData, 'El Verdadero')
         
         self.agents.append(newAgent)
