@@ -7,11 +7,12 @@ from missile import Missile
 import controller
 from vector import Vector
 from body import Body
+from agentData import Attributes
 
 DEVIATION_MODIFIER = 0.15
 
 class Agent(Body):
-    def __init__(self, controllerData, faction):
+    def __init__(self, controllerData, characterData, faction):
         position = Vector(random.random() * 800.0, random.random() * 600.0)
         rotation = random.random() * 6.2831
         super(Agent, self).__init__(position, rotation)
@@ -29,6 +30,8 @@ class Agent(Body):
         self.faction = faction
         self.moveSpeedModifier = 5.0
         self.turnSpeedModifier = 0.2
+
+        self.characterData = characterData
 
     def Fire(self):
         if self.cooldown < 5.0:
