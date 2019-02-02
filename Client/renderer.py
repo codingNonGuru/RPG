@@ -3,6 +3,7 @@ import math
 import pygame
 
 from agentData import Attributes
+from vector import Vector
 
 class Renderer():
     _instance = None
@@ -16,11 +17,18 @@ class Renderer():
 
     def __init__(self):
         pygame.display.init()
-        self.size = (800, 600)
-        self.screen = pygame.display.set_mode(self.size, pygame.DOUBLEBUF)
+        self.size = Vector(800, 600)
+        self.screen = pygame.display.set_mode(self.size.GetTuple(), pygame.DOUBLEBUF)
+        self.camera = Vector(400.0, 300.0)
 
         pygame.font.init()
         self.font = pygame.font.SysFont('Comic Sans MS', 20)
+
+    def GetScreenPosition(self, position):
+        delta = position - self.camera
+        screenOffset = self.size // 2
+        delta += screenOffset
+        return delta 
 
     def Update(self, data):
         self.screen.fill((0, 0, 0))
@@ -29,7 +37,7 @@ class Renderer():
         missileTriangle = [(6, 0), (-3, 2), (-3, -2)]
 
         for agent in data['agents']:
-            position = agent['position']
+            position = Vector.FromTuple(agent['position'])
             rotation = agent['rotation']
             race = agent[Attributes.RACE]
             agentClass = agent[Attributes.CLASS]
@@ -38,21 +46,24 @@ class Renderer():
             for vertex in genericTriangle:
                 x = vertex[0] * math.cos(rotation) - vertex[1] * math.sin(rotation)
                 y = vertex[0] * math.sin(rotation) + vertex[1] * math.cos(rotation)
-                triangle.append((x + position[0], y + position[1]))
+                screenPosition = self.GetScreenPosition(Vector(x + position.x, y + position.y))
+                triangle.append(screenPosition.GetTuple())
 
             pygame.draw.polygon(self.screen, (255, 255, 255), triangle)
 
-            text = race + ' ' + agentClass + ', Lvl ' + str(level)  
+            text = race + ' ' + agentClass + ' [' + str(level) + ']'  
             textSurface = self.font.render(text, False, (255, 255, 255))
-            textSize = textSurface.get_size()
-            textPosition = (position[0] - textSize[0] / 2, position[1] - textSize[1] / 2 + 20)
-            self.screen.blit(textSurface, textPosition)
+            textSize = Vector.FromTuple(textSurface.get_size())
+            textPosition = position - (textSize // 2)
+            textPosition.y += 20.0
+            textPosition = self.GetScreenPosition(textPosition)
+            self.screen.blit(textSurface, textPosition.GetTuple())
 
         for missile in data['missiles']:
             rotation = missile['rotation']
-            position = (missile['x'], missile['y'])
+            position = Vector(missile['x'], missile['y'])
 
-            direction = (math.cos(rotation), math.sin(rotation))
+            direction = Vector(math.cos(rotation), math.sin(rotation))
 
             for i in range(0, 20):
                 triangle = []
@@ -70,7 +81,8 @@ class Renderer():
                 pygame.draw.polygon(surface, (255, 255, 255, int(alpha)), triangle)
 
                 deltaFactor = factor * 5.0
-                surfacePosition = (int(position[0] + direction[0] * deltaFactor - 20.0), int(position[1] + direction[1] * deltaFactor - 20.0))
-                self.screen.blit(surface, surfacePosition)
+                surfacePosition = position + direction * deltaFactor - 20.0
+                surfacePosition = self.GetScreenPosition(surfacePosition)
+                self.screen.blit(surface, surfacePosition.GetTuple())
 
         pygame.display.flip()
