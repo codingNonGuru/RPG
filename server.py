@@ -80,7 +80,8 @@ class Server:
                 'hitpoints' : agent.hitpointCount,
                 Attributes.RACE : agent.characterData[Attributes.RACE],
                 Attributes.CLASS : agent.characterData[Attributes.CLASS],
-                Attributes.LEVEL : agent.characterData[Attributes.LEVEL]
+                Attributes.LEVEL : agent.characterData[Attributes.LEVEL],
+                'user_id' : agent.controller.GetId()
                 }
             eventObject['agents'].append(agentData)            
 

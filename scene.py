@@ -2,6 +2,7 @@ import controller
 import agent
 import agentFactory
 from agentData import Attributes, Races, Classes
+from vector import Vector
 
 class Scene:
     _scene = None
@@ -27,7 +28,7 @@ class Scene:
     def AddPlayer(self, id):
         controllerData = {'isHuman' : True, 'id' : id}
         characterData = {Attributes.RACE : Races.DWARF, Attributes.CLASS : Classes.FIGHTER, Attributes.LEVEL : 1}
-        newAgent = agent.Agent(controllerData, characterData, 'El Verdadero')
+        newAgent = agent.Agent(Vector(0.0, 0.0), controllerData, characterData, 'El Verdadero')
         
         self.agents.append(newAgent)
 

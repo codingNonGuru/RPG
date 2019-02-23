@@ -24,6 +24,9 @@ class HumanController(Controller):
         super(HumanController, self).__init__(parent)   
         self.id = id
 
+    def GetId(self):
+        return self.id
+
     def Update(self):
         self.Reset()
 
@@ -48,6 +51,9 @@ class HumanController(Controller):
 class MachineController(Controller):
     def __init__(self, parent):
         super(MachineController, self).__init__(parent)
+
+    def GetId(self):
+        return -1
 
     def Update(self):
         self.Reset()

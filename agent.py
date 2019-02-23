@@ -12,8 +12,7 @@ from agentData import Attributes
 DEVIATION_MODIFIER = 0.15
 
 class Agent(Body):
-    def __init__(self, controllerData, characterData, faction):
-        position = Vector(random.random() * 800.0, random.random() * 600.0)
+    def __init__(self, position, controllerData, characterData, faction):
         rotation = random.random() * 6.2831
         super(Agent, self).__init__(position, rotation)
 

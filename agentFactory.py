@@ -2,6 +2,7 @@ import random
 
 import agent
 from agentData import Attributes, Races
+from vector import Vector
 
 class AgentFactory():
     _instance = None
@@ -24,7 +25,9 @@ class AgentFactory():
         else:
             characterData[Attributes.RACE] = Races.HUMAN
 
-        newAgent = agent.Agent(controllerData, characterData, faction)
+        position = Vector(random.random() * 600.0 - 300.0, random.random() * 600.0 - 300.0)
+
+        newAgent = agent.Agent(position, controllerData, characterData, faction)
 
         #if characterData['race'] is Races.DWARF:
         #   characterData['strength'] = 4

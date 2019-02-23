@@ -4,6 +4,7 @@ import pygame
 
 from agentData import Attributes
 from vector import Vector
+import client
 
 class Renderer():
     _instance = None
@@ -19,7 +20,7 @@ class Renderer():
         pygame.display.init()
         self.size = Vector(800, 600)
         self.screen = pygame.display.set_mode(self.size.GetTuple(), pygame.DOUBLEBUF)
-        self.camera = Vector(400.0, 300.0)
+        self.camera = Vector(0.0, 0.0)
 
         pygame.font.init()
         self.font = pygame.font.SysFont('Comic Sans MS', 20)
@@ -31,6 +32,11 @@ class Renderer():
         return delta 
 
     def Update(self, data):
+        for agent in data['agents']:
+            if client.Client.Get().userId == agent['user_id']:
+                self.camera = Vector.FromTuple(agent['position'])
+                break
+
         self.screen.fill((0, 0, 0))
 
         genericTriangle = [(10, 0), (-6, 6), (-6, -6)]
