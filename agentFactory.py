@@ -4,6 +4,8 @@ import agent
 from agentData import Attributes, Races
 from vector import Vector
 
+import math
+
 class AgentFactory():
     _instance = None
 
@@ -14,7 +16,7 @@ class AgentFactory():
 
         return AgentFactory._instance
 
-    def GetAgent(self, controllerData, characterData, faction):
+    def GetAgent(self, controllerData, characterData, faction, spawnData = None):
         characterData[Attributes.LEVEL] = random.randint(1, 10)
 
         dice = random.randint(0, 100)
@@ -25,7 +27,15 @@ class AgentFactory():
         else:
             characterData[Attributes.RACE] = Races.HUMAN
 
-        position = Vector(random.random() * 600.0 - 300.0, random.random() * 600.0 - 300.0)
+        position = None
+
+        if spawnData is None:
+            position = Vector(random.random() * 600.0 - 300.0, random.random() * 600.0 - 300.0)
+        else:
+            angle = random.random() * 6.2831
+            radius = random.random() * spawnData.areaSize
+            positionOffset = Vector(math.cos(angle) * radius, math.sin(angle) * radius)
+            position = spawnData.position + positionOffset
 
         newAgent = agent.Agent(position, controllerData, characterData, faction)
 

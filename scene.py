@@ -3,6 +3,7 @@ import agent
 import agentFactory
 from agentData import Attributes, Races, Classes
 from vector import Vector
+from spawnData import SpawnData
 
 class Scene:
     _scene = None
@@ -18,10 +19,11 @@ class Scene:
         self.agents = []
         self.missiles = []
 
-        for i in range(0, 5):
+        for i in range(0, 3):
             controllerData = {'isHuman' : False}
             characterData = {Attributes.CLASS : Classes.FIGHTER}
-            newAgent = agentFactory.AgentFactory.Get().GetAgent(controllerData, characterData, 'Los Chicos')
+            spawnData = SpawnData(Vector(300.0, 200.0), 30.0)
+            newAgent = agentFactory.AgentFactory.Get().GetAgent(controllerData, characterData, 'Los Chicos', spawnData)
             
             self.agents.append(newAgent)
 
