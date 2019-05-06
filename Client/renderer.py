@@ -21,12 +21,14 @@ class Renderer():
         self.size = Vector(800, 600)
         self.screen = pygame.display.set_mode(self.size.GetTuple(), pygame.DOUBLEBUF)
         self.camera = Vector(0.0, 0.0)
+        self.zoomFactor = 0.7
 
         pygame.font.init()
-        self.font = pygame.font.SysFont('Comic Sans MS', 20)
+        self.font = pygame.font.SysFont('Comic Sans MS', 15)
 
     def GetScreenPosition(self, position):
         delta = position - self.camera
+        delta *= self.zoomFactor
         screenOffset = self.size // 2
         delta += screenOffset
         return delta 

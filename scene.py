@@ -22,7 +22,7 @@ class Scene:
         for i in range(0, 3):
             controllerData = {'isHuman' : False}
             characterData = {Attributes.CLASS : Classes.FIGHTER}
-            spawnData = SpawnData(Vector(300.0, 200.0), 30.0)
+            spawnData = SpawnData(Vector(300.0, 200.0), 60.0)
             newAgent = agentFactory.AgentFactory.Get().GetAgent(controllerData, characterData, 'Los Chicos', spawnData)
             
             self.agents.append(newAgent)
