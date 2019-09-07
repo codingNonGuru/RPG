@@ -18,25 +18,32 @@ class Renderer():
 
     def __init__(self):
         pygame.display.init()
-        self.size = Vector(800, 600)
+        self.size = Vector(1280, 720)
         self.screen = pygame.display.set_mode(self.size.GetTuple(), pygame.DOUBLEBUF)
-        self.camera = Vector(0.0, 0.0)
+        self.cameraPosition = Vector(0.0, 0.0)
+        self.cameraRotation = 0.0
         self.zoomFactor = 0.7
 
         pygame.font.init()
         self.font = pygame.font.SysFont('Comic Sans MS', 15)
 
     def GetScreenPosition(self, position):
-        delta = position - self.camera
+        delta = position - self.cameraPosition
+        delta.Rotate(self.cameraRotation)
         delta *= self.zoomFactor
         screenOffset = self.size // 2
         delta += screenOffset
         return delta 
 
+    #def GetInterfacePosition(self, position):
+        
+
     def Update(self, data):
         for agent in data['agents']:
             if client.Client.Get().userId == agent['user_id']:
-                self.camera = Vector.FromTuple(agent['position'])
+                self.cameraPosition = Vector.FromTuple(agent['position'])
+                self.cameraRotation = 1.57 + agent['rotation']
+                self.cameraRotation *= -1.0
                 break
 
         self.screen.fill((0, 0, 0))
@@ -62,9 +69,12 @@ class Renderer():
             text = race + ' ' + agentClass + ' [' + str(level) + ']'  
             textSurface = self.font.render(text, False, (255, 255, 255))
             textSize = Vector.FromTuple(textSurface.get_size())
-            textPosition = position - (textSize // 2)
-            textPosition.y += 20.0
+
+            textPosition = position
             textPosition = self.GetScreenPosition(textPosition)
+            textPosition -= (textSize // 2)
+            textPosition.y += 20.0
+
             self.screen.blit(textSurface, textPosition.GetTuple())
 
         for missile in data['missiles']:
@@ -72,6 +82,8 @@ class Renderer():
             position = Vector(missile['x'], missile['y'])
 
             direction = Vector(math.cos(rotation), math.sin(rotation))
+
+            rotation += self.cameraRotation
 
             for i in range(0, 20):
                 triangle = []
@@ -89,8 +101,8 @@ class Renderer():
                 pygame.draw.polygon(surface, (255, 255, 255, int(alpha)), triangle)
 
                 deltaFactor = factor * 5.0
-                surfacePosition = position + direction * deltaFactor - 20.0
-                surfacePosition = self.GetScreenPosition(surfacePosition)
+                surfacePosition = position + direction * deltaFactor
+                surfacePosition = self.GetScreenPosition(surfacePosition) - 20.0
                 self.screen.blit(surface, surfacePosition.GetTuple())
 
         pygame.display.flip()

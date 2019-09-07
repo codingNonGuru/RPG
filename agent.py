@@ -28,7 +28,7 @@ class Agent(Body):
 
         self.faction = faction
         self.moveSpeedModifier = 5.0
-        self.turnSpeedModifier = 0.2
+        self.turnSpeedModifier = 0.02
 
         self.characterData = characterData
 

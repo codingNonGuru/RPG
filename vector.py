@@ -33,6 +33,16 @@ class Vector(object):
     def GetTuple(self):
         return (self.x, self.y)
 
+    def GetRotatedVersion(self, angle):
+        x = self.x * math.cos(angle) - self.y * math.sin(angle)
+        y = self.x * math.sin(angle) + self.y * math.cos(angle)
+        return Vector(x, y)
+
+    def Rotate(self, angle):
+        rotatedVersion = self.GetRotatedVersion(angle)
+        self.x = rotatedVersion.x
+        self.y = rotatedVersion.y
+
     @staticmethod
     def GetCrossProduct(first, second):
         return (first.x * second.y) - (first.y * second.x)

@@ -31,7 +31,7 @@ class Engine():
             lastClock = time.clock()
 
             self.Update()
-    
+
     def Update(self):
         pygame.event.pump()
         pressedKeys = pygame.key.get_pressed()

@@ -17,7 +17,7 @@ class Engine:
         time.sleep(1.0)
         lastClock = time.clock()
         while True:
-            time.sleep(0.0166)
+            time.sleep(0.033)
 
             self.frameDelta = time.clock() - lastClock
             self.frameDelta *= 100.0

@@ -34,7 +34,6 @@ class Client():
 
         self.Close()
 
-
     def GetMessage(self):
         messageData = self.socket.recv()
         return json.loads(messageData)
